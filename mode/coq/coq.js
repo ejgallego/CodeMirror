@@ -11,80 +11,87 @@
   CodeMirror.defineMode('coq', function(_config, parserConfig) {
 
     var vernacular = [
-      'Add', 'All', 'Arguments', 'Axiom',
+      'Abort', 'About', 'Add', 'All', 'Arguments', 'Asymmetric', 'Axiom',
       'Bind',
-      'Canonical', 'Check', 'Class', 'Close', 'Coercion', 'CoFixpoint',
-      'CoInductive', 'Context', 'Contextual', 'Corollary',
+      'Canonical', 'Check', 'Class', 'Close', 'Coercion', 'CoFixpoint', 'Comments',
+      'CoInductive', 'Context', 'Constructors', 'Contextual', 'Corollary',
       'Defined', 'Definition', 'Delimit',
+      'Fail',
       'Eval',
       'End', 'Example', 'Export',
-      'Fact', 'Fixpoint',
+      'Fact', 'Fixpoint', 'From',
       'Global', 'Goal', 'Graph',
       'Hint', 'Hypotheses', 'Hypothesis',
       'Implicit', 'Implicits', 'Import', 'Inductive', 'Infix', 'Instance',
       'Lemma', 'Let', 'Local', 'Ltac',
       'Module', 'Morphism',
-      'Notation',
-      'Open',
+      'Next', 'Notation',
+      'Obligation', 'Open',
       'Parameter', 'Parameters', 'Prenex', 'Print', 'Printing', 'Program',
-      'Projections', 'Proof',
+      'Patterns', 'Projections', 'Proof',
       'Proposition',
       'Qed',
       'Record', 'Relation', 'Remark', 'Require', 'Reserved', 'Resolve', 'Rewrite',
-      'Save', 'Scope', 'Search', 'Section', 'Set', 'Show', 'Strict', 'Structure',
-      'Tactic', 'Theorem',
+      'Save', 'Scope', 'Search', 'SearchAbout', 'Section', 'Set', 'Show', 'Strict', 'Structure',
+      'Tactic', 'Time', 'Theorem', 'Types',
       'Unset',
-      'Variable', 'Variables', 'View',
+      'Variable', 'Variables', 'View'
     ];
 
     var gallina = [
       'as',
-      'cofix',
-      'else', 'end', 'exists',
-      'fix', 'for', 'forall',
+      'at',
+      'cofix', 'crush',
+      'else', 'end',
+      'False', 'fix', 'for', 'forall', 'fun',
       'if', 'in', 'is',
       'let',
       'match',
       'of',
+      'Prop',
       'return',
       'struct',
-      'then',
-      'when', 'with',
+      'then', 'True', 'Type',
+      'when', 'with'
     ];
 
     var tactics = [
       'after', 'apply', 'assert', 'auto', 'autorewrite',
       'case', 'change', 'clear', 'compute', 'congruence', 'constructor',
-      'cut', 'cutrewrite',
+      'congr', 'cut', 'cutrewrite',
       'dependent', 'destruct',
-      'eapply', 'eassumption', 'eauto', 'econstructor', 'elim',
+      'eapply', 'eassumption', 'eauto', 'econstructor', 'elim', 'exists',
       'field', 'firstorder', 'fold', 'fourier',
       'generalize',
-      'hnf',
-      'induction', 'injection', 'intro', 'intros', 'inversion',
+      'have', 'hnf',
+      'induction', 'injection', 'instantiate', 'intro', 'intros', 'inversion',
       'left',
       'move',
       'pattern', 'pose',
       'refine', 'remember', 'rename', 'replace', 'revert', 'rewrite',
       'right', 'ring',
-      'set', 'simpl', 'specialize', 'split', 'subst', 'symmetry',
+      'set', 'simpl', 'specialize', 'split', 'subst', 'suff', 'symmetry',
       'transitivity', 'trivial',
       'unfold', 'unlock', 'using',
+      'vm_compute',
+      'where', 'wlog'
     ];
 
     var terminators = [
       'assumption',
+      'by',
       'contradiction',
       'discriminate',
       'exact',
+      'now',
       'omega',
       'reflexivity',
-      'tauto',
+      'tauto'
     ];
 
     var admitters = [
       'admit',
-      'Admitted',
+      'Admitted'
     ];
 
     var words = {};
