@@ -106,8 +106,12 @@
 //        'true': 'atom',
 
     function tokenBase(stream, state) {
-      // console.log('tokenBase', stream, state);
       var ch = stream.next();
+
+      if(ch === '.') {
+        state.tokenize = tokenStatementEnd;
+        return state.tokenize(stream, state);
+      }
 
       if (ch === '"') {
         state.tokenize = tokenString;
@@ -152,7 +156,6 @@
     }
 
     function tokenString(stream, state) {
-      // console.log('tokenString', stream, state);
       var next, end = false, escaped = false;
       while ((next = stream.next()) != null) {
         if (next === '"' && !escaped) {
@@ -168,7 +171,6 @@
     }
 
     function tokenComment(stream, state) {
-      // console.log('tokenComment', stream, state);
       var prev, next;
       while(state.commentLevel > 0 && (next = stream.next()) != null) {
         if (prev === '(' && next === '*') state.commentLevel++;
@@ -179,6 +181,13 @@
         state.tokenize = tokenBase;
       }
       return 'comment';
+    }
+
+    function tokenStatementEnd(stream, state) {
+      state.tokenize = tokenBase;
+      if(stream.eol() || stream.match(/\s/, false))
+        return 'statementend';
+
     }
 
     return {
@@ -196,7 +205,7 @@
   });
 
   CodeMirror.defineMIME('text/x-coq', {
-    name: 'coq',
+    name: 'coq'
   });
 
 });
