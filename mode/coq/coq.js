@@ -106,11 +106,14 @@
 //        'true': 'atom',
 
     function tokenBase(stream, state) {
-      if(stream.sol())
+      if(stream.sol()) {
         state.logicalsol = true; // logicalsol: only \s caracters seen from sol
+      }
       if(stream.eol())
         state.logicalsol = false;
-      stream.eatSpace();
+
+      if(stream.eatSpace())
+        return null;
 
       var ch = stream.next();
 
@@ -214,7 +217,6 @@
         return {tokenize: tokenBase, commentLevel: 0};
       },
       token: function(stream, state) {
-        //if (stream.eatSpace()) return null;
         return state.tokenize(stream, state);
       },
       blockCommentStart: "(*",
