@@ -141,7 +141,8 @@
       }
 
       if (ch === '(') {
-        if (stream.eat('*')) {
+        if (stream.peek() === '*') {
+          stream.next();
           state.commentLevel++;
           state.tokenize = tokenComment;
           return state.tokenize(stream, state);
@@ -193,15 +194,22 @@
     }
 
     function tokenComment(stream, state) {
-      var prev, next;
-      while(state.commentLevel > 0 && (next = stream.next()) != null) {
-        if (prev === '(' && next === '*') state.commentLevel++;
-        if (prev === '*' && next === ')') state.commentLevel--;
-        prev = next;
+      var ch;
+      while(state.commentLevel && (ch = stream.next())) {
+        if(ch === '(' && stream.peek() === '*') {
+          stream.next();
+          state.commentLevel++;
+        }
+
+        if(ch === '*' && stream.peek() === ')') {
+          stream.next();
+          state.commentLevel--;
+        }
       }
-      if (state.commentLevel <= 0) {
+
+      if(!state.commentLevel)
         state.tokenize = tokenBase;
-      }
+
       return 'comment';
     }
 
@@ -209,7 +217,6 @@
       state.tokenize = tokenBase;
       if(stream.eol() || stream.match(/\s/, false))
         return 'statementend';
-
     }
 
     return {
